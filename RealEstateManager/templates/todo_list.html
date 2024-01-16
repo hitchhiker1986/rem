@@ -1,0 +1,17 @@
+{% load static %}
+{% if request.user.is_anonymous %}
+<span>You are not logged in!</span>
+{% endif %}
+<h2>ToDos:</h2>
+<hr>
+{% for todo in todos %}
+    <div class="todo_element">
+        <div class="todo_title">
+            <span>{{ todo.title }}</span><br>
+        </div>
+        <span>{{ todo.description }}</span><br>
+        <span>Felelos: {{ todo.responsible }}</span> <br>
+        <span>Hatarido: {{ todo.end_day }}</span>
+    </div>
+{% endfor %}
+

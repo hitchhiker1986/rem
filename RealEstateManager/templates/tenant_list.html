@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+
+<h2>Tenants:</h2>
+
+{% for tenant in tenants %}
+    <span>{{tenant}}</span>
+{% endfor %}
+
+<!-- {% if tenants.is_company %}
+    <input type="checkbox" name="Company" checked>
+{% else %}
+    <input type="checkbox" name="Company">
+{% endif %}
+
+{% if tenants.is_active %}
+    <input type="checkbox" name="Aktiv" checked>
+{% else %}
+    <input type="checkbox" name="Aktiv">
+{% endif %} -->

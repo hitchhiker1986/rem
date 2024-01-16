@@ -1,0 +1,65 @@
+.main {
+    background-color: white;
+}
+
+.navbar {
+    color: white;
+    background-color: #00303F; /*cerulean*/
+    box-shadow: 0px 5px 10px #00303F;
+    height: 50px;
+}
+
+.links {
+    display: inline-block;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.navbar a:link {
+    color: white;
+    text-decoration: none;
+}
+.navbar a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a:active {
+    color: white;
+}
+
+.navbar a:hover {
+    color: cyan;
+}
+
+#content {
+    padding: 50px;
+    width: 70%;
+}
+
+#todos {
+    padding: 50px;
+    width: 30%;
+}
+
+.main_div {
+    float: left;
+}
+
+.todo_element {
+    margin-bottom: 20px;
+    background-color: #e3e3e3;
+    box-shadow: 0px 3px 10px black;
+}
+.todo_title {
+    color: white;
+    background-color: #00303F;
+}
+
+.utility_card {
+    margin-bottom: 10px;
+    width: 200px;
+    background-color: #CAE4DB;
+}
+
+

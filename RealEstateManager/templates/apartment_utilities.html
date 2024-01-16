@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% load static %}
+
+{% for utility in utilities %}
+    <div class="utility_card">
+        <span>{{ utility.serial }}</span>
+        <span>{{ utility.current }}</span><br>
+    </div>
+
+{% endfor %}

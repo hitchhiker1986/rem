@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% load static %}
+
+<div id="apartment_menu">
+    <table>
+        <tr>
+            <td><a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/details', 'apartment_content');">Alapadatok</a></td>
+            <td> <a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/owners', 'apartment_content');">Tulajdonos</a></td>
+            <td><a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/tenants', 'apartment_content');">Berlo</a></td>
+            <td><a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/utilities', 'apartment_content');">Kozuzemi</a></td>
+            <td><a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/contracts', 'apartment_content');">Szerzodesek</a></td>
+            <td><a href="#" onclick="loadHTML('../apartment/{{apartment.id}}/history', 'apartment_content');">Elozmenyek</a></td>
+        </tr>
+    </table>
+</div>
+<div id="apartment_content">
+
+</div>

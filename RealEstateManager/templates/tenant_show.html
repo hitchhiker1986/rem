@@ -1,0 +1,49 @@
+{% load static %}
+<!--<form action="" method="post">
+    {$ csrf_token $}
+    {{ form }}
+</form> -->
+
+
+
+<!--
+
+<span>Tenant called: {{tenant}}</span>
+<form action="" method="post">
+    <label for="nev">Your name: </label>
+    <input id="your_name" type="text" name="your_name" value="{{ tenant }}">
+    <input type="submit" value="OK">
+</form> -->
+
+<table>
+    <tr>
+        <td class="key">Email:</td>
+        <td class="value">{{ tenant.user.email }}</td>
+        <td class="key">Telefon:</td>
+        <td class="value">{{ tenant.phone }}</td>
+    </tr>
+    <tr>
+        <td class="key">Orszag:</td>
+        <td class="value">{{ tenant.country }}</td>
+        <td class="key">Varos:</td>
+        <td class="value">{{ tenant.city }}</td>
+    </tr>
+    <tr>
+        <td class="key">Irsz:</td>
+        <td class="value">{{ tenant.zip }}</td>
+        <td class="key">Cim:</td>
+        <td class="value">{{ tenant.address }}</td>
+    </tr>
+    <tr>
+        <td class="key">Szuletesi nev:</td>
+        <td class="value">{{ tenant.born_name }}</td>
+        <td class="key">Szig Szam:</td>
+        <td class="value">{{ tenant.persID }}</td>
+    </tr>
+    <tr>
+        <td class="key">Adoszam:</td>
+        <td class="value">{{ tenant.taxID }}</td>
+        <td class="key">Bankszamlaszam:</td>
+        <td class="value">{{ tenant.iban }}</td>
+    </tr>
+</table>

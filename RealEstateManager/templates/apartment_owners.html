@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+{% load static %}
+
+{% for owner in owners %}
+    <span>Nev: {{ owner.birth_name }}</span><br>
+    <span>Felhasznalonev: {{ owner.user }}</span>
+{% endfor %}

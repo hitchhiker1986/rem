@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+{% load static %}
+
+{% for tenant in tenants %}
+    <span>Nev: {{ tenant.birth_name }}</span><br>
+    <span>Felhasznalonev: {{ tenant.user }}</span>
+{% endfor %}

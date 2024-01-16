@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+
+{% if request.user.is_anonymous %}
+<span>You are not logged in!</span>
+{% endif %}
+<h2 class="content-header">Apartments:</h2>
+{% if request.user.is_staff %}
+<table>
+    <tr>
+        <td>cim</td>
+        <td>Tulaj(ok)</td>
+        <td>Berlo(k)</td>
+    </tr>
+    {% for apartment in apartments %}
+    <tr>
+        <td><a href="#" id="apartment_show" onclick="loadHTML('../apartment/{{apartment.id}}', 'content');">{{apartment.address}}</a></td>
+        <td>
+            {% for owner in apartment.owner.all %}
+            <a href="#" id="owner_show" onclick="loadHTML('../owner/{{owner.user.id}}', 'content');">{{owner}}</a>
+            {% endfor %}
+        </td>
+        <td>
+            {% for tenant in apartment.tenant.all %}
+            <a href="#" id="tenant_show" onclick="loadHTML('../tenant/{{tenant.user.id}}', 'content');">{{tenant}}</a><br>
+            {% endfor %}
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+
+{% endif %}
+
+
+{% for apartment in apartments %}
+{% for o in apartment.owner.all %}
+{% if o.user == user %}
+<div class="card">
+    <span class="content-name">{{ apartment.address }}</span>
+    <span>Owners:
+                            {% for owner in apartment.owner.all %}
+                                {{owner}}
+                                </span>
+    {% endfor %}
+    {% for tenant in apartment.tenant.all %}
+    <span>Tenant:</span><a href="../tenants?user={{tenant.user.id}}">{{tenant}}</a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+{% for t in apartment.tenant.all %}
+{% if t.user == user %}
+<div class="card">
+    <span class="content-name">{{ apartment.address }}</span>
+    <span>Owners:
+                            {% for owner in apartment.owner.all %}
+                                {{owner}}
+                                </span>
+    {% endfor %}
+    {% for tenant in apartment.tenant.all %}
+    <span>Tenant:</span><a href="../tenants?user={{tenant.user.id}}">{{tenant}}</a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+
+{% endfor %}
