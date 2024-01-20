@@ -38,7 +38,6 @@ def tenant_list(request):
     for tenant in tenants:
         print(tenant.user.username)
 
-    #   http://127.0.0.1:8000/tenants/?user=3
     return render(request, 'tenant_list.html', {'tenants': tenants})
 
 
@@ -75,8 +74,6 @@ def apartment_show(request, apt_id):
 @login_required
 def tenant_show(request, user_id):
     tenant = Tenant.objects.get(user__id=user_id)
-    #    variables = {}
-    #    variables['form'] = TenantForm(tenant)
     return render(request, "tenant_show.html", {"tenant": tenant})
 
 
@@ -94,19 +91,19 @@ def home_view(request):
 
 def dict_form(request, serial):
     if request.method == 'POST':
-        utility = Utility.objects.get(serial=serial)
-        print(utility.current)
-        #        send_mail("Test", "Hello", "papplaszlopft@gmail.com", {"papp.l@icloud.com"})
+        utility = Utility.objects.get(serial = serial)
         form = DictForm(request.POST, instance=utility)
         if form.is_valid():
             form.save()
-            print("the form is valid, yooppeee")
-            print("Utility.current was set to: ")
             utility.set_current(request.POST['current'])
-            print(utility.current)
+            utility.save()
+            dh = DictHistory()
+            dh.update_serial(utility.get_serial())
+            dh.dict_value = request.POST['current']
+            dh.save()
             email = EmailMessage(
                 "Dict successful",
-                str(serial) + " diktalasa sikeres volt.",
+                str(serial) + " diktalasa sikeres volt. A meroora uj erteke: " + str(utility.get_current()),
                 "papplaszlopft@gmail.com",
                 {"papp.l@icloud.com"},
             )
@@ -114,24 +111,12 @@ def dict_form(request, serial):
             return HttpResponseRedirect("/test/")
 
         else:
-            #            print(request.POST['new_value'])
-            #            utility.current = request.POST['new_value']
             for error in form.errors:
                 print(error)
             form = DictForm()
     else:
         form = DictForm(request.POST)
     return render(request, 'dict.html', {'form': form})
-
-
-#    if request.method == "POST":
-#        form = DictForm(request.POST)
-#        if form.is_valid():
-#            return HttpResponseRedirect("/thanks/")
-#    else:
-#        form=DictForm
-
-#    return render(request, "utilities/dict.html", {"form": form})
 
 
 @login_required
@@ -182,3 +167,35 @@ def apartment_utilities(request, apt_id):
     apartment = Apartment.objects.get(id=apt_id)
     utilities = apartment.utilities.all()
     return render(request, "apartment_utilities.html", {"utilities": utilities})
+
+
+def dict_years(request):
+    dict_history = DictHistory.objects.all().values()
+    years = []
+    for dh in dict_history:
+        years.append(dh['dict_date'].year)
+
+    years = list(dict.fromkeys(years))
+
+    return render(request, "dict_years.html", {"years": years})
+
+
+def dict_list(request, year):
+    dict_history = DictHistory.objects.filter(dict_date__year=year)
+    dict_history = dict_history.order_by('utility_serial').values()
+    serials = dict_history.values('utility_serial').distinct()
+
+    dicts = []
+    for serial in serials:
+        arr = []
+        for dh in dict_history:
+
+            if dh['utility_serial'] == serial['utility_serial']:
+                arr.append({'value': dh['dict_value'], 'month': dh['dict_date'].month})
+
+        util = {'serial': serial['utility_serial'], 'arr': arr}
+
+        dicts.append(util)
+
+    print(dicts)
+    return render(request, "dict_list.html", {"dicts": dicts})

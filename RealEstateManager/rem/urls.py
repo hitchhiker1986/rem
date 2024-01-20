@@ -23,6 +23,8 @@ urlpatterns = [
     path('tenant/<int:user_id>', tenant_show, name='tenant'),
     path('owner/<int:user_id>', owner_show, name='owner'),
     path('dict/<int:serial>', dict_form, name='dict'),
+    path('dict_years/', dict_years, name='dict_years'),
+    path('dict_list/<int:year>', dict_list, name='dict_list'),
     path('todo_list/', todo_list, name='todo_list'),
 #    url(r'^dict/(?P<serial>[A-Za-z0-9]*)$', dict_form, name='dict'),
 ]

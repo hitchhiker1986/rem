@@ -11,9 +11,10 @@ function loadHTML(source, target) {
 function showToDo() {
 //today's day (of month):
 let date = new Date().getDate();
-console.log(date);
+//console.log(date);
 }
 showToDo()
 
 function hideToDo() {
 }
+

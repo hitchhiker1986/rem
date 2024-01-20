@@ -5,6 +5,8 @@
     <div class="utility_card">
         <span>{{ utility.serial }}</span>
         <span>{{ utility.current }}</span><br>
+        <a href="../dict/{{ utility.serial }}" target="_blank">Dict</a>
+        <!--<a href="#" onclick="loadHTML('../dict/{{ utility.serial }}', 'content');">Dict</a>-->
     </div>
 
 {% endfor %}

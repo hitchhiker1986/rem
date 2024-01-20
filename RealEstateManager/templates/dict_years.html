@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% load static %}
+
+<table>
+    <tr>
+        {% for year in years %}
+           <td> <a href="#" onclick="loadHTML('../dict_list/{{ year }}', 'dict_list');">{{ year }}</a></td>
+        {% endfor %}
+    </tr>
+</table>
+<div id="dict_list"></div>

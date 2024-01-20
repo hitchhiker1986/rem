@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<table>
+    <tr>
+        <th>Serial</th>
+        <th>Januar</th>
+        <th>Februar</th>
+        <th>Marcius</th>
+        <th>Aprilis</th>
+        <th>Majus</th>
+        <th>Junius</th>
+        <th>Julius</th>
+        <th>Augusztus</th>
+        <th>Szeptember</th>
+        <th>Oktober</th>
+        <th>November</th>
+        <th>December</th>
+    </tr>
+    {%  for dict in dicts %}
+        <tr>
+            <td>{{ dict.serial }}</td>
+            {% for num in dict.arr %}
+
+                {% for i in "x"|ljust:"12" %}
+                    <td>
+                    {% if num.month == forloop.counter  %}
+                        {{ num.value }}
+                    {% else %}
+                        <span>n/a</span>
+                    {% endif %}
+                    </td>
+                {% endfor %}
+
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+

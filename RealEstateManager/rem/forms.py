@@ -9,7 +9,7 @@ class DictForm(forms.ModelForm):
 #        new_value = forms.FloatField(label="Uj ertek ")
 
 
-class TenantForm(forms.ModelForm):
-    class Meta:
-        model = Tenant
-        fields = ('country', 'address', )
+# class TenantForm(forms.ModelForm):
+ #    class Meta:
+  #       model = Tenant
+   #     fields = ('country', 'address', )
