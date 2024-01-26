@@ -5,7 +5,7 @@
 .navbar {
     color: white;
     background-color: #00303F; /*cerulean*/
-    box-shadow: 0px 5px 10px #00303F;
+    box-shadow: 0 5px 10px #00303F;
     height: 50px;
 }
 
@@ -49,7 +49,7 @@
 .todo_element {
     margin-bottom: 20px;
     background-color: #e3e3e3;
-    box-shadow: 0px 3px 10px black;
+    box-shadow: 0 3px 10px black;
 }
 .todo_title {
     color: white;

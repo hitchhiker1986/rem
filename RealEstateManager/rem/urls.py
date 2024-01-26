@@ -1,13 +1,10 @@
-from django.urls import path, re_path
-#from django.conf.urls import url
+from django.urls import path
+# from django.conf.urls import url
 from rem.views import *
-import rem.views
-import re
 
 app_name = 'rem'
 urlpatterns = [
-#    path('', index_view, name='index'),
-#    re_path(r'^home/$', home_view, name='home'),
+    # path('', index_view, name='index'),
     path('test/', test_view, name='test'),
     path('apartment_list/', apartment_list, name='apartment_list'),
     path('owner_list/', owner_list, name='owner_list'),
@@ -26,5 +23,5 @@ urlpatterns = [
     path('dict_years/', dict_years, name='dict_years'),
     path('dict_list/<int:year>', dict_list, name='dict_list'),
     path('todo_list/', todo_list, name='todo_list'),
-#    url(r'^dict/(?P<serial>[A-Za-z0-9]*)$', dict_form, name='dict'),
+    # url(r'^dict/(?P<serial>[A-Za-z0-9]*)$', dict_form, name='dict'),
 ]

@@ -1,5 +1,3 @@
-from datetime import date
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -45,6 +43,14 @@ class Tenant(models.Model):
 
 
 class Utility(models.Model):
+    serial = models.CharField(max_length=30)
+    current = models.FloatField()
+    delta = models.FloatField(default=0.0)
+    dict_start_day = models.PositiveIntegerField(default=1)
+    dict_end_day = models.PositiveIntegerField(default=7)
+    provider = models.TextField(default="")
+    # photo = models.ImageField()
+
     class Type(models.TextChoices):
         HOTWATER = "HWA", "hot water"
         COLDWATER = "CWA", "cold water"
@@ -54,22 +60,18 @@ class Utility(models.Model):
     class Unit(models.TextChoices):
         KWH = "KWH", "kWh"
         M3 = "M3", "m3"
-    serial = models.CharField(max_length=30)
 
     type = models.CharField(
         max_length=3,
         choices=Type.choices,
         default='ELE'
         )
-    current = models.FloatField()
+
     unit = models.CharField(
         max_length=3,
         choices=Unit.choices,
         default='KWH'
     )
-
-#   photo = models.ImageField()
-    delta = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.serial
@@ -89,7 +91,6 @@ class Utility(models.Model):
     def update_meter(self, new_current):
         self.delta = new_current - self.current
         self.current = new_current
-
 
     def get_current(self):
         return self.current
@@ -124,6 +125,7 @@ class Apartment(models.Model):
         else:
             return calculated
 
+
 class ToDo(models.Model):
     start_day = models.PositiveIntegerField(default=1,)
     end_day = models.PositiveIntegerField(default=1,)
@@ -146,12 +148,9 @@ class DictHistory(models.Model):
     def update_value(self, value):
         self.dict_date = value
 
+
 class PaymentHistory(models.Model):
     payment_date = models.DateField(auto_now_add=True)
     payment_amount = models.FloatField(default=0)
     payment_currency = models.CharField(max_length=3)
     payment_owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-
-
-
-

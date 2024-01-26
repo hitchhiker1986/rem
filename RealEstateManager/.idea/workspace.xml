@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b991d0e-f076-4e39-87a6-54a45d514910" name="Changes" comment="">
+    <list default="true" id="2b991d0e-f076-4e39-87a6-54a45d514910" name="Changes" comment="dotenv configured&#10;settings.py added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rem/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/rem/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/rem/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rem/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/rem/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,8 +97,25 @@
       <workItem from="1705612292873" duration="6935000" />
       <workItem from="1705657290648" duration="24463000" />
       <workItem from="1705753902147" duration="616000" />
-      <workItem from="1706302238876" duration="1221000" />
+      <workItem from="1706302238876" duration="2805000" />
     </task>
+    <task id="LOCAL-00001" summary="dotenv configured&#10;settings.py added">
+      <option name="closed" value="true" />
+      <created>1706303542908</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706303542908</updated>
+    </task>
+    <task id="LOCAL-00002" summary="dotenv configured&#10;settings.py added">
+      <option name="closed" value="true" />
+      <created>1706303647924</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1706303647924</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,6 +131,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="dotenv configured&#10;settings.py added" />
+    <option name="LAST_COMMIT_MESSAGE" value="dotenv configured&#10;settings.py added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -9,13 +9,12 @@ from .forms import DictForm
 
 
 @login_required
-def apartment_list(request):  # at kell irni minden _view-t _list-re
+def apartment_list(request):
     apartments = {}
     if request.user.is_staff:
         apartments = Apartment.objects.all()
 
     if request.user.groups.filter(name="Tenants").exists():
-        print("tenant")
         apartments = Apartment.objects.filter(tenant__user__username__contains=request.user)
 
     if request.user.groups.filter(name="Owners").exists():
