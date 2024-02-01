@@ -188,7 +188,6 @@ def dict_list(request, year):
     for serial in serials:
         arr = []
         for dh in dict_history:
-
             if dh['utility_serial'] == serial['utility_serial']:
                 arr.append({'value': dh['dict_value'], 'month': dh['dict_date'].month})
 
@@ -196,5 +195,4 @@ def dict_list(request, year):
 
         dicts.append(util)
 
-    print(dicts)
     return render(request, "dict_list.html", {"dicts": dicts})

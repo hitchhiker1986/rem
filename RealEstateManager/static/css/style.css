@@ -62,4 +62,12 @@
     background-color: #CAE4DB;
 }
 
+.dict_table {
+    border: 1px;
+}
+.dict_table_head {
+    color: white;
+    background-color: #00303F;
+}
+
 

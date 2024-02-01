@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
-<table>
-    <tr>
+<table class="dict_table">
+    <tr class="dict_table_head">
         <th>Serial</th>
         <th>Januar</th>
         <th>Februar</th>
@@ -19,20 +19,21 @@
     {%  for dict in dicts %}
         <tr>
             <td>{{ dict.serial }}</td>
-            {% for num in dict.arr %}
 
-                {% for i in "x"|ljust:"12" %}
-                    <td>
-                    {% if num.month == forloop.counter  %}
-                        {{ num.value }}
-                    {% else %}
-                        <span>n/a</span>
+            {% for i in "x"|ljust:"12" %}
+                <td>
+                {% for entry in dict.arr %}
+                    {% if entry.month == forloop.parentloop.counter %}
+                        {{ entry.value }}
                     {% endif %}
-                    </td>
                 {% endfor %}
-
+                </td>
             {% endfor %}
         </tr>
     {% endfor %}
 </table>
+
+
+
+
 
