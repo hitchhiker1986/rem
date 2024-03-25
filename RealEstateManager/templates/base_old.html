@@ -51,46 +51,38 @@
     {% block head_page %}{% endblock head_page %}
 </head>
 {% endblock head %}
+{% block body %}
 <body>
-<div class="navbar">
-    {{ user }}
-    <div class="links">
-        <!--<a href="#" id="apartment_list" onclick="loadHTML('../apartment_list', 'content');">Lakasok</a>-->
-        <a href="/apartment_list">Lakások</a>
-        <a href="/owner_list">Tulajok</a>
-        <a href="/tenant_list">Bérlök</a>
-        <a href="/dict_years">Diktálási Napló</a>
-        <!--<a href="#" id="owner_list" onclick="loadHTML('../owner_list', 'content');">Tulajok</a>-->
-        <!--<a href="#" id="tenant_list" onclick="loadHTML('../tenant_list', 'content');">Berlok</a>-->
-        <!--<a href="#" id="meter_list" onclick="loadHTML('../utility_list', 'content');">Kozmuvek</a>-->
-        <!--<a href="#" id="dict_years" onclick="loadHTML('../dict_years', 'content');">Diktalasi Naplo</a>-->
-    </div>
+<div id="navbar">
+    {% block body_navbar %}{% endblock body_navbar %}
 </div>
-{% block submenu %}
-{% endblock submenu %}
 <div id="main">
-<div id="content">
     {% block body_content %}
-        {% block content_nav %}
-        {% endblock content_nav %}
-        {% block content %}
-        {% endblock content %}
-    {% endblock body_content %}
-</div>
-<div id="tasks">
+    <div id="header">
+        {% block body_header %}
+        {% block body_header_banner %}
+        {% endblock body_header_banner %}
+        {% block body_header_title %}<h1>
+        {{ page.title }}</h1>
+        {% endblock body_header_title %}
+        {% block body_header_breadcrumb %}
+        {{ page.breadcrumb }}
+        {% endblock body_header_breadcrumb %}
+        {% endblock body_header %}
+    </div>
     {% block body_tasks %}
     {% endblock body_tasks %}
+    {% block body_main %}{% endblock body_main %}
+    {% endblock body_content %}
 </div>
-
-
-</div>
+{% endblock body %}
 </body>
 
 {% block footer %}
 {% block footer_javascript %}
 {% block footer_javascript_site %}
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<!--<script src="{% static 'rem.js' %}" type="text/javascript"></script>-->
+<script src="{% static 'rem.js' %}" type="text/javascript"></script>
 {% endblock footer_javascript_site %}
 {% block footer_javascript_section %}
 {% endblock footer_javascript_section %}

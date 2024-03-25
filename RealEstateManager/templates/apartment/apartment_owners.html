@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for owner in owners %}
+    <span>Nev: {{ owner.birth_name }}</span><br>
+    <span>ID: {{ owner.id }}</span>
+{% endfor %}
+{%  endblock content %}

@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'base.html' %}
+{% block content %}
 <table class="dict_table">
     <tr class="dict_table_head">
         <th>Serial</th>
@@ -32,7 +32,7 @@
         </tr>
     {% endfor %}
 </table>
-
+{% endblock content %}
 
 
 

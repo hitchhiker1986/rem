@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block body_tasks %}
 {% load static %}
 {% if request.user.is_anonymous %}
 <span>You are not logged in!</span>
@@ -14,4 +16,4 @@
         <span>Hatarido: {{ todo.end_day }}</span>
     </div>
 {% endfor %}
-
+{% endblock body_tasks %}

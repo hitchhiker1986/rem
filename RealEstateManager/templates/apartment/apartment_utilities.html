@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-{% load static %}
-
+{% extends 'base.html' %}
+{% block content %}
 {% for utility in utilities %}
     <div class="utility_card">
         <span>{{ utility.serial }}</span>
@@ -8,5 +7,5 @@
         <a href="../dict/{{ utility.serial }}" target="_blank">Dict</a>
         <!--<a href="#" onclick="loadHTML('../dict/{{ utility.serial }}', 'content');">Dict</a>-->
     </div>
-
 {% endfor %}
+{% endblock content %}

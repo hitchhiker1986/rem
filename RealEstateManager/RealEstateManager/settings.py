@@ -79,9 +79,17 @@ WSGI_APPLICATION = 'RealEstateManager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Columbus',
+        'USER': 'lacc',
+        'PASSWORD': 'Aa123456',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
+        # service mariadb start
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': BASE_DIR / 'db.sqlite3',
+
 }
 
 
@@ -135,7 +143,7 @@ LOGIN_REDIRECT_URL = "/test/"
 load_dotenv()
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST = 'smtp.gmail.com' #os.environ.get("EMAIL_HOST")
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'papplaszlopft@gmail.com'#os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = 'tlrt ttqz zdxt igeo'# os.environ.get('EMAIL_HOST_PASSWORD')

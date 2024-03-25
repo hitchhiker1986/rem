@@ -1,4 +1,4 @@
-{% load static %}
+{% extends 'base.html' %}
 <!--<form action="" method="post">
     {$ csrf_token $}
     {{ form }}
@@ -14,7 +14,7 @@
     <input id="your_name" type="text" name="your_name" value="{{ tenant }}">
     <input type="submit" value="OK">
 </form> -->
-
+{% block content %}
 <table>
     <tr>
         <td class="key">Email:</td>
@@ -47,3 +47,4 @@
         <td class="value">{{ tenant.iban }}</td>
     </tr>
 </table>
+{% endblock content %}

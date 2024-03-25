@@ -1,8 +1,10 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'base.html' %}
+{% block content %}
 
 <h2>Owners:</h2>
 {% for owner in owners %}
     <span>{{ owner }}</span>
 {% endfor %}
+
+{% endblock content %}
 

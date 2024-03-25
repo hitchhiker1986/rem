@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-{% load static %}
-
+{% extends 'base.html' %}
+{% block content %}
 <table>
     <tr>
         {% for year in years %}
@@ -9,3 +8,4 @@
     </tr>
 </table>
 <div id="dict_list"></div>
+{% endblock content %}

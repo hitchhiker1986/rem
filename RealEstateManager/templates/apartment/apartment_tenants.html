@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for tenant in tenants %}
+    <span>Nev: {{ tenant.birth_name }}</span><br>
+    <span>userID: {{ tenant.id }}</span>
+    <a href="#" id="tenant_modify" onclick="loadHTML('../tenant_modify/{{ tenant.id }}', 'content');">Edit User</a>
+{% endfor %}
+{% endblock content %}

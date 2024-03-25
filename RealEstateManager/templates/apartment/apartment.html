@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block submenu %}
+<div id="submenu">
+    <table>
+        <tr>
+            <td><a href="./{{ apartment.id }}/details">Alapadatok</a></td>
+            <td><a href="./{{apartment.id}}/owners">Tulajdonos</a></td>
+            <td><a href="./{{apartment.id}}/tenants">Bérlö</a></td>
+            <td><a href="./{{apartment.id}}/utilities">Közüzemi</a></td>
+            <td><a href="./{{apartment.id}}/contracts">Szerzödések</a></td>
+            <td><a href="./{{apartment.id}}/history">Elözmények</a></td>
+            <td><a href="./{{apartment.id}}">Ellenörzölista</a></td>
+        </tr>
+    </table>
+</div>
+{% endblock submenu %}
+{% block content %}
+    {{ apartment.address }}<span> részletei</span>
+{% endblock content %}
