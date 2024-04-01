@@ -6,8 +6,8 @@ from django.core.mail import EmailMessage
 from .forms import DictForm, TenantForm, CheckForm, ApartmentCreateForm, PaymentBillForm, BillForm
 from django.core import management
 from datetime import datetime
-from django.views.generic import FormView
-from django.views.generic.detail import SingleObjectMixin
+from django.urls import reverse
+
 # Create your views here.
 
 
@@ -304,5 +304,7 @@ def payment_bill_view(request):
         pb.amount_text=form.cleaned_data['amount_text']
         pb.cashier=form.cleaned_data['cashier']
         pb.save()
-        return HttpResponseRedirect("../bill_form/pb.id")
+        print(pb.id)
+
+        return HttpResponseRedirect('bill_form/%s' % pb.id)
     return render(request, 'paymentbill.html', {'form': form})

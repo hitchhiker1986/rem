@@ -2,7 +2,7 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_table }}
         <input type="submit" value="Szamla hozzaadasa">
     </form>
 {% endblock content %}

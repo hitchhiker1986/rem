@@ -235,7 +235,7 @@ class PaymentBill(models.Model):
     issuer_tax_nr = models.CharField(max_length=20, blank=False, null=False)
     buyer_name = models.CharField(max_length=50, blank=False, null=False)
     buyer_address = models.CharField(max_length=50, blank=False, null=False)
-    sum_amount = models.FloatField()
+    sum_amount = models.FloatField(null=True, blank=True)
     amount_text = models.CharField(max_length=50, default="")
     cashier = models.CharField(max_length=30, blank=False, null=False)
     based_on = models.TextChoices("based_on", "Számla Melléklet")
