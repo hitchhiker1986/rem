@@ -25,33 +25,24 @@ def calcStart(x):
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
-        parser.add_argument('utility_id', type=int)
-
     def handle(self,  *args, **options):
-        if options['utility_id'] > 0:
-            try:
-                utility = Utility.objects.get(id=options['utility_id'])
-            except Utility.DoesNotExist:
-                raise CommandError('Utility does not exist')
+        for utility in Utility.objects.all():
 
             next_check_start_date = calcStart(utility.dict_start_day)
             if(utility.dict_start_day < utility.dict_end_day):
                 next_check_end_date = datetime.date(next_check_start_date.year, next_check_start_date.month, utility.dict_end_day)
             else:
                 m = (next_check_start_date.month + 1) % 13
-                    if m == 0:
-                        m += 1
-                        y = next_check_start_date.year + 1
+                if m == 0:
+                    m += 1
+                    y = next_check_start_date.year + 1
                 next_check_end_date = datetime.date(y, m, utility.dict_end_day)
 
-            if datetime.date.today() - next_check_start_date <= 5:
+            if (datetime.date.today() - next_check_start_date).days <= 5:
                 task = ToDo()
                 task.start_day = next_check_start_date
                 task.end_day = next_check_end_date
-                task.description = str(Utility.serial)
-                    + " sorozatszámú fogyasztásmérö óraállásának diktálása. Esedékes "
-                    + str(next_check_end_date) + " dátumig!"
+                task.description = str(Utility.serial) + " sorozatszámú fogyasztásmérö óraállásának diktálása. Esedékes " + str(next_check_end_date) + " dátumig!"
                 task.title = "Diktálás " + str(utility.serial)
                 task.responsible = utility.util_responsible
 
@@ -59,10 +50,10 @@ class Command(BaseCommand):
 
 
                 email = EmailMessage(
-                t.title,
-                t.description,
+                task.title,
+                task.description,
                 User.objects.get(username="admin").email,
-                {t.responsible.email},
+                {task.responsible.email},
                 )
 
                 email.send()
