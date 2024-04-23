@@ -3,11 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import *
 from django.core.mail import EmailMessage
-from .forms import DictForm, TenantForm, CheckForm, ApartmentCreateForm, PaymentBillForm, BillForm
+from .forms import DictForm, TenantForm, CheckForm, ApartmentCreateForm, PaymentBillForm, BillForm, SentContractForm, CreateUtilityForm
 from django.core import management
 from datetime import datetime
-from django.urls import reverse
-
+from .handlers import handle_uploaded_file
 # Create your views here.
 
 
@@ -110,9 +109,9 @@ def thanks(request):
     return render(request, 'thanks.html')
 
 
-def dict_form(request, serial):
+def dict_form(request, pk_id):
     if request.method == 'POST':
-        utility = Utility.objects.get(serial=serial)
+        utility = Utility.objects.get(id=pk_id)
         form = DictForm(request.POST, instance=utility)
         if form.is_valid():
             form.save()
@@ -124,7 +123,7 @@ def dict_form(request, serial):
             dh.save()
             email = EmailMessage(
                 "Dict successful",
-                str(serial) + " diktalasa sikeres volt. A meroora uj erteke: " + str(utility.get_current()),
+                str(utility.get_serial()) + " diktalasa sikeres volt. A meroora uj erteke: " + str(utility.get_current()),
                 "papplaszlopft@gmail.com",
                 {"papp.l@icloud.com"},
             )
@@ -160,9 +159,6 @@ def apartment_createform(request):
     return render(request, 'apartment/apartment_createform.html', {'form': form})
 
 
-def apartment_checkform_new(View):
-    form_class = CheckForm
-
 
 def apartment_checkform(request, apt_id):
     apartment = Apartment.objects.get(id=apt_id)
@@ -183,14 +179,19 @@ def apartment_checkform(request, apt_id):
             ch.not_allowed_tenants = form.cleaned_data['not_allowed_tenants']
             ch.description = form.cleaned_data['description']
             ch.save()
-            apartment.check_history.add(ch)
+            #apartment.check_history.add(ch)
             for data in form.cleaned_data.values():
                 print(data)
                 if data is False:
                     check_result = False
                     break
-#            if check_result:
-#                management.call_command('createtasks', apt_id)
+            if check_result:
+                management.call_command('create_check_tasks', apt_id)
+            else:
+                apartment.check_status = False
+                apartment.save()
+                management.call_command('create_check_tasks', apt_id)
+
             return HttpResponseRedirect("/thanks")
 
     return render(request, 'apartment/apartment_checkform.html', {'form': form})
@@ -241,8 +242,8 @@ def apartment_history(request, apt_id):
 
 @login_required
 def apartment_utilities(request, apt_id):
-    apartment = Apartment.objects.get(id=apt_id)
-    utilities = apartment.utilities.all()
+    utilities = Utility.objects.filter(apartment_id=apt_id)
+    # utilities = apartment.utilities.all()
     return render(request, "apartment/apartment_utilities.html", {"utilities": utilities})
 
 
@@ -308,3 +309,45 @@ def payment_bill_view(request):
 
         return HttpResponseRedirect('bill_form/%s' % pb.id)
     return render(request, 'paymentbill.html', {'form': form})
+
+def apartment_sent_contract_form(request, apt_id):
+    form = SentContractForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            print("this is valid")
+            apartment = Apartment.objects.get(id=apt_id)
+            for file in request.FILES.getlist('file'):
+            #print(file)
+                handle_uploaded_file(file, apt_id)
+            # apartment.sent_contract=request['filepath']
+                apartment.sent_contract = file
+                apartment.save()
+
+            # apartment.sent_contract=form.cleaned_data['filepath']
+            return HttpResponseRedirect('/apartment/%s/contracts' % apt_id)
+        else:
+            print(form.errors)
+    return render(request, 'apartment/sent_contract_form.html', {'form': form})
+
+def create_utility_form(request):
+    form = CreateUtilityForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            util = Utility()
+            util.serial = form.cleaned_data['serial']
+            util.current = form.cleaned_data['current']
+            util.dict_start_day = form.cleaned_data['dict_start_day']
+            util.dict_end_day = form.cleaned_data['dict_end_day']
+            util.provider = form.cleaned_data['provider']
+            util.utility = form.cleaned_data['utility_type']
+            util.utility_unit = form.cleaned_data['utility_unit']
+            util.apartment = form.cleaned_data['apartment']
+            util.save()
+
+            return HttpResponseRedirect("/test/")
+        else:
+            print(form.errors)
+            form = CreateUtilityForm(request.POST)
+
+    return render(request, 'utility/create_utility_form.html', {'form': form})

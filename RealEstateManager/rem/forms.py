@@ -1,3 +1,5 @@
+from tkinter.tix import Meter
+
 from django import forms
 from .models import Utility, Tenant, Apartment, CheckHistory, Bill, PaymentBill
 from django.db import models
@@ -41,3 +43,13 @@ class BillForm(forms.ModelForm):
     class Meta:
         model = Bill
         fields = ('amount', 'bill_number',)
+
+class SentContractForm(forms.Form):
+    file = forms.FileField(required=False)
+
+
+class CreateUtilityForm(forms.ModelForm):
+    class Meta:
+        model = Utility
+        fields = ('__all__')
+

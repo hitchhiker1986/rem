@@ -3,7 +3,8 @@ from enum import IntEnum
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
-import datetime
+import os
+
 
 
 # Create your models here.
@@ -46,63 +47,8 @@ class Tenant(models.Model):
         return self.user.last_name + " " + self.user.first_name
 
 
-class Utility(models.Model):
-    serial = models.CharField(max_length=30)
-    current = models.FloatField()
-    delta = models.FloatField(default=0.0)
-    dict_start_day = models.PositiveIntegerField(default=1)
-    dict_end_day = models.PositiveIntegerField(default=7)
-    provider = models.TextField(default="")
-    # photo = models.ImageField()
-
-    class Type(models.TextChoices):
-        HOTWATER = "HWA", "hot water"
-        COLDWATER = "CWA", "cold water"
-        ELECTRICITY = "ELE", "electricity"
-        GAS = "GAS", "gas"
-
-    class Unit(models.TextChoices):
-        KWH = "KWH", "kWh"
-        M3 = "M3", "m3"
-
-    type = models.CharField(
-        max_length=3,
-        choices=Type.choices,
-        default='ELE'
-        )
-
-    unit = models.CharField(
-        max_length=3,
-        choices=Unit.choices,
-        default='KWH'
-    )
-
-    def __str__(self):
-        return self.serial
-
-    def set_delta(self, num):
-        self.delta = num
-
-    def set_current(self, num):
-        self.current = num
-
-    def set_unit(self):
-        if self.type == "ELE":
-            self.unit = 'KWH'
-        else:
-            self.unit = 'M3'
-
-    def update_meter(self, new_current):
-        self.delta = new_current - self.current
-        self.current = new_current
-
-    def get_current(self):
-        return self.current
-
-    def get_serial(self):
-        return self.serial
-
-
+def get_doc_path(instance):
+    return os.path.join("Documents/%s" % instance.id)
 
 class Apartment(models.Model):
     # szerzodesek: kikuldott, alairt, kikoltozesi nyilatkozat, atadas-atveteli jk checklista gyerek eseten befogado nyilatkozat, egyeb[]
@@ -128,12 +74,16 @@ class Apartment(models.Model):
                                                     validators=[MinValueValidator(0), MaxValueValidator(100)])
     premium = models.FloatField(default=0,
                                 validators=[MinValueValidator(15000), MaxValueValidator(50000)])
-    utilities = models.ManyToManyField(Utility, blank=True)
+    # utilities = models.ManyToManyField(Utility, blank=True)
     next_check = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(12)])
     check_status = models.BooleanField(default=True)
     last_check = models.DateField(blank=True, null=True)
-    # history = models.ManyToManyField(ContractHistory, related_name="apartment_history", blank=True, null=True)
-    # check_history = models.ManyToManyField(CheckHistory, related_name="apartment_check_history", blank=True, null=True)
+    # documents
+    sent_contract = models.FileField(upload_to='', blank=True, null=True)
+    signed_contract = models.FileField(upload_to='Documents', blank=True, null=True)
+    leave_statement = models.FileField(upload_to='Documents/', blank=True, null=True)
+    takeover_checklist = models.FileField(upload_to='Documents/', blank=True, null=True)
+    child_acceptance_statement = models.FileField(upload_to='Documents/', blank=True, null=True)
 
     def __str__(self):
         return self.address
@@ -146,6 +96,48 @@ class Apartment(models.Model):
             return 15000
         else:
             return calculated
+
+
+class Utility(models.Model):
+    serial = models.CharField(max_length=30)
+    current = models.FloatField()
+    dict_start_day = models.PositiveIntegerField(default=1)
+    dict_end_day = models.PositiveIntegerField(default=7)
+    provider = models.CharField(max_length=20 ,default="")
+    utility_type = models.CharField(max_length=10, default="")
+    utility_unit = models.CharField(max_length=5, default="")
+    apartment = models.ForeignKey(
+        Apartment,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="apartment",)
+
+    util_responsible = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='util_responsible_user',
+    )
+    # photo = models.ImageField()
+
+
+    def __str__(self):
+        return self.serial
+
+    def set_delta(self, num):
+        self.delta = num
+
+    def set_current(self, num):
+        self.current = num
+
+    def update_meter(self, new_current):
+        self.current = new_current
+
+    def get_current(self):
+        return self.current
+
+    def get_serial(self):
+        return self.serial
 
 
 class ContractHistory(models.Model):
@@ -186,11 +178,11 @@ class ToDo(models.Model):
     end_day = models.DateField()
     description = models.TextField(max_length=500,)
     title = models.TextField(max_length=50, )
-    responsible = models.ForeignKey(
+    task_responsible = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         null=True,
-        related_name='responsible_user',
+        related_name='task_responsible_user',
     )
 
     def __str__(self):

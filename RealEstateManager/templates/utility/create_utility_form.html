@@ -1,0 +1,10 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+<h2>Új méröóra létrehozása</h2>
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" name='submit' value="submit">
+</form>
+{% endblock content %}

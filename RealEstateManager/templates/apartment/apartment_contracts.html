@@ -1,4 +1,30 @@
 {% extends 'base.html' %}
+{% block submenu %}
+<div id="submenu">
+    <table>
+        <tr>
+            <td><a href="/apartment/{{ apartment.id }}/details">Alapadatok</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/owners">Tulajdonos</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/tenants">Bérlö</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/utilities">Közüzemi</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/contracts">Szerzödések</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/history">Elözmények</a></td>
+            <td><a href="/apartment/{{ apartment.id }}/checkform">Ellenörzölista</a></td>
+        </tr>
+    </table>
+</div>
+{% endblock submenu %}
 {% block content %}
 {{ apartment.address }}<span> Szerzodesei</span>
+
+    <div class="contract" id="sent_contract">
+        {% if apartment.sent_contract %}
+            {{ apartment.sent_contract   }}
+        {% else %}
+            <a href="/apartment/{{ apartment.id }}/sent_contract_form">Kiküldött szerzödés feltöltése</a>
+        {% endif %}
+    </div>
+    <div class="contract" id="signed_contract">
+        nincs még aláírt szerzödés feltöltve
+    </div>
 {% endblock content %}
