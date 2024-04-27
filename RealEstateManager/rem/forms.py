@@ -44,8 +44,10 @@ class BillForm(forms.ModelForm):
         model = Bill
         fields = ('amount', 'bill_number',)
 
-class SentContractForm(forms.Form):
-    file = forms.FileField(required=False)
+class SentContractForm(forms.ModelForm):
+    class Meta:
+        model = Apartment
+        fields = ('sent_contract', )
 
 
 class CreateUtilityForm(forms.ModelForm):

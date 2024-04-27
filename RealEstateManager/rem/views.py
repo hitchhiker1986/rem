@@ -311,19 +311,15 @@ def payment_bill_view(request):
     return render(request, 'paymentbill.html', {'form': form})
 
 def apartment_sent_contract_form(request, apt_id):
-    form = SentContractForm(request.POST, request.FILES)
+    apartment = Apartment.objects.get(id=apt_id)
+    form = SentContractForm(request.POST, request.FILES, instance=apartment)
     if request.method == 'POST':
         if form.is_valid():
             print("this is valid")
-            apartment = Apartment.objects.get(id=apt_id)
-            for file in request.FILES.getlist('file'):
-            #print(file)
-                handle_uploaded_file(file, apt_id)
-            # apartment.sent_contract=request['filepath']
-                apartment.sent_contract = file
-                apartment.save()
 
-            # apartment.sent_contract=form.cleaned_data['filepath']
+            for file in request.FILES.getlist('file'):
+                apartment.sent_contract = file
+            apartment.save()
             return HttpResponseRedirect('/apartment/%s/contracts' % apt_id)
         else:
             print(form.errors)
