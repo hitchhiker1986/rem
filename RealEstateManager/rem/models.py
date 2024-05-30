@@ -173,6 +173,11 @@ class Deposit(models.Model):
 
 
 class ToDo(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "Pending"
+        IN_PROGRESS = "In Progress"
+        COMPLETED = "Completed"
+        EXPIRED = "Expired"
     # status ami alapjan kiertekelodik hogy kihez milyen gyakran kell menni (problemas-e)
     start_day = models.DateField()
     end_day = models.DateField()
@@ -184,6 +189,7 @@ class ToDo(models.Model):
         null=True,
         related_name='task_responsible_user',
     )
+    status = models.CharField(choices=Status, default=Status.PENDING, max_length=12)
 
     def __str__(self):
         return self.title

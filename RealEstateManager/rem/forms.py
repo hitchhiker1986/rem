@@ -1,7 +1,7 @@
 from tkinter.tix import Meter
 
 from django import forms
-from .models import Utility, Tenant, Apartment, CheckHistory, Bill, PaymentBill
+from .models import Utility, Tenant, Apartment, CheckHistory, Bill, PaymentBill, ToDo
 from django.db import models
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
@@ -44,6 +44,12 @@ class BillForm(forms.ModelForm):
         model = Bill
         fields = ('amount', 'bill_number',)
 
+
+BillAndPaymentBillFormSet = inlineformset_factory(
+    PaymentBill, Bill, form = BillForm,
+    extra=1, can_delete=True, can_delete_extra=True
+)
+
 class SentContractForm(forms.ModelForm):
     class Meta:
         model = Apartment
@@ -55,3 +61,13 @@ class CreateUtilityForm(forms.ModelForm):
         model = Utility
         fields = ('__all__')
 
+
+class task_form(forms.ModelForm):
+    class Meta:
+        model = ToDo
+        fields = ('__all__')
+
+    widgets = {
+        'start_day': forms.DateInput(),
+        'end_day': forms.DateInput(),
+    }

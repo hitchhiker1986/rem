@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import *
 from django.core.mail import EmailMessage
-from .forms import DictForm, TenantForm, CheckForm, ApartmentCreateForm, PaymentBillForm, BillForm, SentContractForm, CreateUtilityForm
+from .forms import DictForm, TenantForm, CheckForm, ApartmentCreateForm, PaymentBillForm, BillForm, BillAndPaymentBillFormSet, SentContractForm, CreateUtilityForm, task_form
 from django.core import management
 from datetime import datetime
 from .handlers import handle_uploaded_file
@@ -204,8 +204,32 @@ def test_view(request):
 
 @login_required
 def todo_list(request):
-    todos = ToDo.objects.filter(responsible=request.user)
-    return render(request, "todo_list.html", {"todos": todos})
+    if request.user.is_superuser:
+        todos = ToDo.objects.all()
+    else:
+        todos = ToDo.objects.filter(task_responsible=request.user)
+    return render(request, "todos/todo_list.html", {"todos": todos})
+
+def task_show_and_modify(request, pk_id):
+    task = ToDo.objects.get(pk=int(pk_id))
+    if request.method == 'POST':
+        form = task_form(request.POST, instance=task)
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            # new_task.task_responsible = form.cleaned_data['task_responsible']
+            new_task.save()
+    else:
+        form = task_form(instance=task)
+
+    return render(request, 'todos/todo_form.html', {'form': form})
+
+def create_task(request):
+    form = task_form(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            new_task.save()
+    return render(request, 'todos/todo_form.html', {'form': form})
 
 
 @login_required
@@ -285,10 +309,40 @@ def bill_form_view(request, pb_id):
         bill.bill_number = form.cleaned_data['bill_number']
         bill.amount = form.cleaned_data['amount']
         bill.save()
-        return HttpResponseRedirect("/thanks")
+        return HttpResponseRedirect("#")
 
     return render(request, "bill_form.html", {'form': form})
 
+class PaymentBillInline():
+    form_class = PaymentBillForm
+    model = PaymentBill
+    template_name = 'paymentbill.html'
+
+    def form_valid(self, form):
+        named_formsets = self.get_named_formsets()
+        if not all((x.is_valid() for x in named_formsets.values())):
+            return self.render_to_response(self.get_context_data(form=form))
+
+        self.object = form.save()
+        # for every formset, attempt to find a specific formset save function
+        #otherwise, just save
+        for name, formset in named_formsets.items():
+            formset_save_func = getattr(self, 'formset_{0}_valid'.format(name), None)
+
+            if formset_save_func is not None:
+                formset_save_func(formset)
+            else:
+                formset.save()
+
+        return redirect('/test')
+
+    def formset_bill_valid(self, formset):
+        bills = formset.save(commit=False)
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for bill in bills:
+            bill.payment_bill = self.object
+            bill.save()
 
 def payment_bill_view(request):
     pb = PaymentBill()

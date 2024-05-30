@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-
     <form action="" method="post">
         {% csrf_token %}
         <div>
-            {{ form.as_table }} 
-            <!--<button id="add_next">[+]</button> <br>-->    
+            {{ form|crispy }}
+            <!--<button id="add_next">[+]</button> <br>-->
         </div>
-        
-        <input type="submit" value="Szamla hozzaadasa">
+
+        <input type="submit" value="Feladat aktualizálása">
     </form>
 
     <!--
@@ -17,8 +17,8 @@
          const source = document.getElementById("form_div")
          let formtxt = "{{ form.as_table }}"
          source.innerHTML = source.innerHTML + "<br>" + formtxt;
-         
+
          function add_next_bill():
-             
+
     </script>-->
 {% endblock content %}

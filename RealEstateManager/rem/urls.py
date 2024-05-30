@@ -32,5 +32,8 @@ urlpatterns = [
     path('payment_bill', payment_bill_view, name='payment_bill'),
     path('bill_form/<int:pb_id>', bill_form_view, name='bill_form'),
     path('create_util_form/', create_utility_form, name='create_utility_form'),
+    path('todos/', todo_list, name='todo_list'),
+    path('todos/todo_form/<int:pk_id>', task_show_and_modify, name='todo_form'),
+    path('todos/create_task/', create_task, name='create_task'),
     # url(r'^dict/(?P<serial>[A-Za-z0-9]*)$', dict_form, name='dict'),
 ]
